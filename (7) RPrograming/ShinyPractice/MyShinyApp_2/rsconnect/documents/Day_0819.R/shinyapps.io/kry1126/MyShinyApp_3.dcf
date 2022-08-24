@@ -1,0 +1,13 @@
+name: MyShinyApp_3
+title: MyShinyApp_3
+username:
+account: kry1126
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6809497
+bundleId: 6216655
+url: https://kry1126.shinyapps.io/MyShinyApp_3/
+when: 1660884544.35242
+lastSyncTime: 1660884544.35243
+asMultiple: FALSE
+asStatic: FALSE
