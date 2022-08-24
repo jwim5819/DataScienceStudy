@@ -1,2 +1,4 @@
 demo/** linguist-documentation=false
 demo/** linguist-vendored=false
+*.html linguist-detectable=false
+*.py linguist-vendored=true
