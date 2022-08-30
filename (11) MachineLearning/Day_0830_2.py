@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
 import numpy as np
 
 fish_length = [25.4, 26.3, 26.5, 29.0, 29.0, 29.7, 29.7, 30.0, 30.0, 30.7,
@@ -77,3 +78,48 @@ smelt = np.zeros(14)
 # concatenate를 사용하여 배열을 서로 연결, 연결된 배열은 튜플로 전달됨
 fish_target = np.concatenate((domi, smelt))
 print(fish_target)
+
+# sklearn을 활용하면 numpy써서 배열 만들고 할 필요 없음========================
+
+# 사이킷런으로 훈련세드와 테스트세트 나누기(train_test_split)
+train_input, test_input, train_target, test_target = train_test_split(
+    fish_data, fish_target, stratify=fish_target, random_state=42
+)
+print(f'train_input.shape = {train_input.shape}',
+      f'test_input.shape = {test_input.shape}', sep='\n')
+print(f'train_target = {train_target}')
+print(f'test_target  = {test_target}')
+
+# k-최근접 모델 적용(train_test_split함수로 나눈 데이터 사용)
+kn = KNeighborsClassifier()
+kn.fit(train_input, train_target)
+print("score: ", kn.score(test_input, test_target))
+
+# 25cm, 150g의 생선 분류수(수상한 도미) => 여전히 0으로 나온다.
+print(kn.predict([[25, 150]]))
+
+# 산점도로 시각화해보기
+plt.scatter(train_input[:, 0], train_input[:, 1])
+plt.scatter(25, 150, marker='^')
+plt.xlabel('length')
+plt.ylabel('weight')
+plt.show()
+
+# 가장 가까운 이웃과의 거리 계산(default값은 5이고 가장 가까운 5개의 이웃 찾음)
+distances, indexes = kn.kneighbors([[25, 150]])
+print(f'distances = {distances}')
+print(f'indexes = {indexes}')
+
+# 이웃 5개 산점도로 시각화
+plt.scatter(train_input[:, 0], train_input[:, 1], label='train_data',
+            color='b')
+plt.scatter(25, 150, marker='^', color='orange', label='Unknown')
+plt.scatter(train_input[indexes, 0], train_input[indexes, 1],
+            marker='D', label='neighbors', color='r')
+plt.xlabel('length')
+plt.ylabel('weight')
+plt.legend()
+plt.show()
+
+print(f'neighbors: {train_input[indexes]}')
+print(f'target: {train_target[indexes]}')
