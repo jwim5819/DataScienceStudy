@@ -2,4 +2,4 @@
 *.R linguist-vendored=false
 *.py linguist-vendored=false
 *.twb linguist-vendored=false
-#*.ipynb linguist-vendored=false
+#*.ipynb linguist-vendored=false  
